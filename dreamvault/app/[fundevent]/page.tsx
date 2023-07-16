@@ -1,16 +1,25 @@
 'use client'
-
+import { useState,useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
-import data from './../../temp/Feed.json';
+import {CONTRACT_ADDRESS,abi}from './../../utils/contract'
+import {
+    useContractEvent,
+    usePrepareContractWrite,
+    useContractWrite,
+    useWaitForTransaction,
+    useAccount
+} from "wagmi";
+import feeddata from './../../temp/Feed.json';
 export default function Page() {
     const router = useRouter()
+    const [value,setValue]=useState<number>(0)
     const companyid = useSearchParams().get('id')
     let description = '';
     let fundRaised = 0;
     let people = 0;
     let deadline = '';
-    data.feed.forEach(item => {
+    feeddata.feed.forEach(item => {
         if (item.companyName === companyid) {
             description = item.companyDescription;
             fundRaised = item.fundRaisedTillNow
@@ -18,7 +27,37 @@ export default function Page() {
             deadline = item.deadline
         }
     });
-
+    const { config } = usePrepareContractWrite({
+        address: CONTRACT_ADDRESS,
+        abi: abi,
+        functionName: "invest",
+        args: [
+          companyid,
+        value
+        ],
+      });
+      const { data, write } = useContractWrite(config);
+    
+      const { isLoading, isSuccess } = useWaitForTransaction({
+        hash: data?.hash,
+      });
+    
+    useEffect(() => {
+        if (isSuccess) {
+          console.log('SUCCESSS')
+        }
+      }, [isSuccess]);
+    
+    const handleSubmit=(e:any)=>{
+    e.preventDefault();
+    write?.()
+    }
+    const handleEnrollmentAmountChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+      ) => {
+        const amount = parseInt(event.target.value);
+        setValue(amount);
+      };
     return (
         <div className='text-purple-600 mt-10'>
             <div className="bg-white   shadow-md p-8 mt-5 rounded-sm transform hover:translate-y-2 transition duration-300 ease-in-out">
@@ -31,7 +70,8 @@ export default function Page() {
 
                             <p className="mt-4 text-lg text-gray-500 text-justify ">
                                 {description}<br/>
-                                <button
+                                <input type='Number' value={value} onChange={handleEnrollmentAmountChange} required/>
+                                <button onClick={(e)=>handleSubmit(e)}
                     className="mt-5 px-8 text-lg h-10 font-light text-white bg-[#732fff] rounded-full text-right hover:border-2 hover:border-[#732fff] hover:bg-white hover:text-[#732fff]"
                     
                   >Invest</button>
