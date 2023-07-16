@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   useContractEvent,
   usePrepareContractWrite,
@@ -7,7 +7,7 @@ import {
   useWaitForTransaction,
   useAccount,
 } from "wagmi";
-import {CONTRACT_ADDRESS,abi}from './../utils/contract'
+import {CONTRACT_ADDRESS,abi}from './../../utils/contract'
 interface EventInput {
   usrName: string;
   companyName: string;
@@ -30,10 +30,33 @@ const EventForm: React.FC = () => {
     images: null,
     enrollmentAmount: 0,
   });
+  const { config } = usePrepareContractWrite({
+    address: CONTRACT_ADDRESS,
+    abi: abi,
+    functionName: "createCampaign",
+    args: [
+      eventInput.usrName,
+      eventInput.companyName,
+      eventInput.eventName,
+      eventInput.description,
+      eventInput.images,
+      eventInput.enrollmentAmount,
+      eventInput.deadline
+    ],
+  });
+  const { data, write } = useContractWrite(config);
 
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
   const [submissionStatus, setSubmissionStatus] = useState<
     "none" | "success" | "error"
   >("none");
+  useEffect(() => {
+    if (isSuccess) {
+      console.log('SUCCESSS')
+    }
+  }, [isSuccess]);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -93,6 +116,7 @@ const EventForm: React.FC = () => {
       if (isFormValid) {
         setSubmissionStatus("success");
         // Perform further actions (e.g., API request, database update)
+        write?.()
         console.log("Form submitted successfully");
       } else {
         setSubmissionStatus("error");

@@ -1,7 +1,9 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import data from './../temp/Feed.json';
-import SearchComponent from "../utility_components/SearchComponent";
+import { useContractRead } from "wagmi";
+import {CONTRACT_ADDRESS,abi}from './../utils/contract'
+//import SearchComponent from "../utility_components/SearchComponent";
 
 interface FeedItem {
   companyIcon: string;
@@ -16,6 +18,21 @@ export default function Home() {
   const [feed, setFeed] = useState<FeedItem[]>([]);
   const [filteredFeed, setFilteredFeed] = useState<FeedItem[]>([]);
 
+  const { data:blockData, isError, isLoading } = useContractRead({
+    address: CONTRACT_ADDRESS,
+    abi: abi,
+    functionName: "getCampaignDetails",
+  });
+
+  useEffect(() => {
+    if ((blockData as FeedItem[]) && !isLoading) {
+      console.log(blockData)
+     
+      
+
+      
+    }
+  }, [blockData, isLoading]);
   useEffect(() => {
     setFeed(data.feed);
     setFilteredFeed(data.feed);

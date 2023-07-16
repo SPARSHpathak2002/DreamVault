@@ -1,7 +1,57 @@
-export const CONTRACT_ADDRESS ="0x06E7b6a2D86DdA6b9030d61dd8Fc31e553e328EA";
+export const CONTRACT_ADDRESS ="0x99C092C58Bbe8Fd14DAACA03cc94a3833d0de977";
 
 
-export const abi = [
+export const abi =[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_userName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_companyName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_eventName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_image",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountNeeded",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_deadline",
+				"type": "string"
+			}
+		],
+		"name": "createCampaign",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "invest",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
 	{
 		"inputs": [],
 		"name": "campaign",
@@ -42,9 +92,9 @@ export const abi = [
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "deadline",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
@@ -53,49 +103,6 @@ export const abi = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_userName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_companyName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_eventName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_description",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_image",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountNeeded",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_deadline",
-				"type": "uint256"
-			}
-		],
-		"name": "createCampaign",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -138,9 +145,9 @@ export const abi = [
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "deadline",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
@@ -149,13 +156,6 @@ export const abi = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "invest",
-		"outputs": [],
-		"stateMutability": "payable",
 		"type": "function"
 	}
 ];
