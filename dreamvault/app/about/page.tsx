@@ -2,7 +2,7 @@ import React from "react";
 
 const About = () => {
     return (
-        <div className="bg-white   shadow-md p-8 m-3 rounded-sm transform hover:-translate-y-2 transition duration-300 ease-in-out">
+        <div className="bg-white   shadow-md p-8 m-3 rounded-sm transform hover:translate-y-2 transition duration-300 ease-in-out">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="lg:flex lg:items-center lg:justify-between">
                     <div className="max-w-2xl">
